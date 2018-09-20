@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TabNavigator, StackNavigator } from 'react-navigation';
-import { AuthScreen, WelcomeScreen, MapScreen, DeckScreen, ReviewScreen, SettingScreen } from './src';
+import { StyleSheet, Text, View, Platform } from 'react-native';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import store from './store';
+import {
+  WelcomeScreen,
+  MapScreen,
+  DeckScreen,
+  ReviewScreen,
+  SettingScreen
+} from './src';
+import AuthScreen from './src/AuthScreen';
 
 export default class App extends Component {
   render() {
-    const MainNavigation = TabNavigator({
+    const MainNavigation = createBottomTabNavigator({
       welcome: { screen: WelcomeScreen },
       auth: { screen: AuthScreen },
       main: {
-        screen: TabNavigator({
+        screen: createBottomTabNavigator({
           map: { screen: MapScreen },
           deck: { screen: DeckScreen },
           review: {
-            screen: StackNavigator({
-              review: { screen: ReviewScreen },
+            screen: createStackNavigator({
+              review: {
+                screen: ReviewScreen
+               },
               setting: { screen: SettingScreen }
             })
           }
         })
       }
-    })
+    });
     return (
+      <Provider store={store}>
       <MainNavigation />
+      </Provider>
     );
   }
 }

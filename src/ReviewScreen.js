@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
 
 class ReviewScreen extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => {
+  return {
     title: 'Review Screen',
-    header: () => {
-      return {
-        right: <Text>Settings</Text>
-      };
-    }
+    headerRight: (
+      <Button
+        title='Settings'
+        onPress={() => navigation.navigate('setting')}
+        backgroundColor='rgba(0, 0, 0, 0)'
+        color='black'
+      />
+    )
+  };
   }
 
   render() {
@@ -25,4 +31,4 @@ class ReviewScreen extends Component {
   }
 }
 
-export {ReviewScreen};
+export { ReviewScreen };

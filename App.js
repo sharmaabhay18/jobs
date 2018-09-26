@@ -5,18 +5,19 @@ import { Provider } from 'react-redux';
 import store from './store';
 import {
   WelcomeScreen,
-  MapScreen,
-  DeckScreen,
   ReviewScreen,
   SettingScreen
 } from './src';
 import AuthScreen from './src/AuthScreen';
+import MapScreen from './src/MapScreen';
+import DeckScreen from './src/DeckScreen';
+
 
 export default class App extends Component {
   render() {
     const MainNavigation = createBottomTabNavigator({
-      welcome: { screen: WelcomeScreen },
-      auth: { screen: AuthScreen },
+      // welcome: { screen: WelcomeScreen },
+      // auth: { screen: AuthScreen },
       main: {
         screen: createBottomTabNavigator({
           map: { screen: MapScreen },
@@ -30,6 +31,10 @@ export default class App extends Component {
             })
           }
         })
+      }
+    }, {
+      navigationOptions: {
+        tabBarVisible: false
       }
     });
     return (

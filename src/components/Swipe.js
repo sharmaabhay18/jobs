@@ -94,6 +94,7 @@ class Swipe extends Component {
     }
 
     return this.props.data.map((item, i) => {
+      if (this.state.index === this.props.data.length) { return this.props.renderNoMoreCards(); }
       if (i < this.state.index) { return null; }
 
       if (i === this.state.index) {

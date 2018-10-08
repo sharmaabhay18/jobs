@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Card, Button } from 'react-native-elements';
+import { Card, Button, Icon } from 'react-native-elements';
 import { MapView } from 'expo';
 import Geocode from 'react-geocode';
 import Swipe from './components/Swipe';
+import * as actions from '../action';
 
 class DeckScreen extends Component {
+  static navigationOptions = {
+    title: 'Jobs',
+    tabBarIcon: ({ tintColor }) => {
+        return <Icon name='description' size={30} color={tintColor} />;
+      }
+  }
+
    renderCard(job) {
     console.log('job', job.location);
      let latitude = null;
      let longitude = null;
-    Geocode.fromAddress(job.location)
-    .then((newLatLng) => {
-     latitude = newLatLng.results[0].geometry.location.lat;
-     longitude = newLatLng.results[0].geometry.location.lng;
-    console.log(`${latitude}${longitude}`);
-  }
-).catch((error) => console.log(error));
+//     Geocode.fromAddress(job.location)
+//     .then((newLatLng) => {
+//      latitude = newLatLng.results[0].geometry.location.lat;
+//      longitude = newLatLng.results[0].geometry.location.lng;
+//     console.log(`${latitude}${longitude}`);
+//   }
+// ).catch((error) => console.log(error));
     const initialRegion = {
-      longitude: longitude ? longitude : -122,
-      latitude: latitude ? latitude : 37,
+      longitude: -122,
+      latitude: 37,
       latitudeDelta: 0.045,
       longitudeDelta: 0.02
     };
@@ -46,9 +54,17 @@ class DeckScreen extends Component {
   );
   }
 
-renderNoMoreCards() {
+renderNoMoreCards = () => {
   return (
-    <Card title='No more jobs' />
+    <Card title='No More Jobs'>
+    <Button
+     title='Back To Map'
+     large
+     icon={{ name: 'my-location' }}
+     backgroundColor='#03A9F4'
+     onPress={() => this.props.navigation.navigate('map')}
+    />
+    </Card>
   );
 }
   render() {
@@ -58,6 +74,7 @@ renderNoMoreCards() {
           data={this.props.jobs}
           renderCard={this.renderCard}
           renderNoMoreCards={this.renderNoMoreCards}
+          onSwipeRight={job => this.props.likeJob(job)}
         />
       </View>
     );
@@ -72,7 +89,8 @@ const style = {
   wrapperTitle: {
     flexDirection: 'row',
     marginBottom: 10,
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginTop: 10
   },
   descriptionStyle: {
     alignItems: 'center',
@@ -80,4 +98,4 @@ const style = {
   }
 };
 
-export default connect(mapStateToProps)(DeckScreen);
+export default connect(mapStateToProps, actions)(DeckScreen);

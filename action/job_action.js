@@ -4,7 +4,9 @@ import qs from 'qs';
 
 import {
      FETCH_JOBS,
-    LAT_LNG_USING_ADDRESS
+    LAT_LNG_USING_ADDRESS,
+    LIKE_JOB,
+    CLEAR_LIKED_JOB
 } from './types.js';
 
 //const JOB_ROOT_URl = 'http://api.indeed.com/ads/apisearch?';
@@ -21,7 +23,7 @@ const JOB_ROOT_URl = 'https://jobs.github.com/positions.json?';
 // };
 
 const buildJobURL = (region) => {
-  const query = qs.stringify({ description: 'python', lat: region.latitude, long: region.longitude });
+  const query = qs.stringify({ description: 'java', lat: region.latitude, long: region.longitude });
   return `${JOB_ROOT_URl}${query}`;
 };
 
@@ -35,4 +37,17 @@ export const fetchJobs = (region, callback) => async dispatch => {
   } catch (e) {
     console.error(e);
   }
+};
+
+export const likeJob = (job) => {
+  return {
+    type: LIKE_JOB,
+    payload: job
+  };
+};
+
+export const clearLikedJob = () => {
+  return {
+    type: CLEAR_LIKED_JOB
+  };
 };

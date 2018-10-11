@@ -21,7 +21,7 @@ const JOB_ROOT_URl = 'https://jobs.github.com/positions.json?';
 // };
 
 const buildJobURL = (region) => {
-  const query = qs.stringify({ description: 'python', lat: region.latitude, long: region.longitude });
+  const query = qs.stringify({ description: 'java', lat: region.latitude, long: region.longitude });
   return `${JOB_ROOT_URl}${query}`;
 };
 
